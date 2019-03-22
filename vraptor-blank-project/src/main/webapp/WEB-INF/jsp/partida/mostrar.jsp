@@ -11,16 +11,24 @@
 	<table>
 		  <tr>
 		    <th>Codigo</th>
-		    <th>Nome</th> 
+		    <th>Time 1</th>
+		    <th>Pontuação 1</th>
+		    <th>X</th>
+		    <th>Pontuação 2</th>
+		    <th>Time 2</th> 
 		    <th>Opcoes</th>
 		  </tr>
-			<c:forEach var="t" items="${times}">
+			<c:forEach var="p" items="${partidas}">
 			
   				<tr>	
-	    			<td>${t.codigo}</td> 
-	    			<td>${t.nome}</td>
-	    			<td><a href = "<c:url value = "/time/editar/${t.codigo}"/>"><button>Editar</button></a></td> 
-	    			<td><a href = "<c:url value = "/time/excluir/${t.codigo}"/>"><button>Excluir</button></a></td>
+	    			<td>${p.codigo}</td> 
+	    			<td>${p.time1}</td>
+	    			<td>${p.pontuacao1}</td>
+	    			<td>X</td>
+	    			<td>${p.pontuacao2}</td>
+	    			<td>${p.time2}</td>
+	    			<td><a href = "<c:url value = "/partida/editar/${p.codigo}"/>"><button>Editar</button></a></td> 
+	    			<td><a href = "<c:url value = "/partida/excluir/${p.codigo}"/>"><button>Excluir</button></a></td>
   				</tr>
 			</c:forEach>
 	</table>

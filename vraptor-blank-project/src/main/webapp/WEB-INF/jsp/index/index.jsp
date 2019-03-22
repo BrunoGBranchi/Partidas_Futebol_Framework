@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>VRaptor Blank Project</title>
+<title>Cadastro Times</title>
 </head>
 <body>
-	It works!! ${variable} ${linkTo[IndexController].index}
+	<a href = "/your.groupid/time/cadastro"><button>Abrir Sistema</button></a>
 </body>
 </html>
