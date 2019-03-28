@@ -13,15 +13,19 @@
 	
 		<label>Código: </label> <input type="text" name="partida.codigo" />
 		<br>
-		<label>Time 1: </label> <input type="text" name="partida.time1" />
-		<select>
+		<select name="partida.time1">
 			<option>Selecione</option>
 			<c:forEach var="t" items="${times}">
-				<option value="${t.id}">${t.nome}</option>
+				<option value="${t.nome}">${t.nome}</option>
 			</c:forEach>
 			</select>
 		<label></label> <input type="text" name="partida.pontuacao1" />
-		<label>Time 2: </label> <input type="text" name="partida.time2" />
+		<select name="partida.time2">
+			<option>Selecione</option>
+			<c:forEach var="t" items="${times}">
+				<option value="${t.nome}">${t.nome}</option>
+			</c:forEach>
+			</select>
 		<label></label> <input type="text" name="partida.pontuacao2" />
 		<input type="submit" name="Cadastrar" />
 	</form>

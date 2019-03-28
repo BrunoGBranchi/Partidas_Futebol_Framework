@@ -32,13 +32,14 @@ public class PartidaController {
 		
 		@Get("/cadastro")
 		public void cadastro() {
-			
+			result.include("times", Banco.times);
 		}
 		
 		@Post("/enviar")
 		public void mostrar(Partida partida) {
 			Banco.partidas.add(partida);
 			result.include("partidas", Banco.partidas);
+			
 		}
 		
 		@Get("/editar/{codigo}")
