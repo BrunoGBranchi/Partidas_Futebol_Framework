@@ -57,11 +57,11 @@
 					</div>
 					<div class="form-group">
 						<input class="btn btn-success" type="submit" name="Cadastrar" />
-						<a href="<c:url value = "/partida/mostrar"/>">
-							<button class="btn btn-primary">Ver partidas cadastradas</button>
-						</a>
 					</div>
 				</form>
+				<a href="<c:url value = "/partida/mostrar"/>">
+					<button class="btn btn-primary">Ver partidas cadastradas</button>
+				</a>
 			</div>
 		</div>
 	</div>

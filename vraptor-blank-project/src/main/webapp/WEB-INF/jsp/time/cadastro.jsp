@@ -24,13 +24,12 @@
 						</div>
 						<br>
 						<div class="form-group">
-							<input class="btn btn-success" type="submit" name="Enviar" /> <a
-								href="<c:url value = "/time/mostrar"/>"><button
-									class="btn btn-primary">Listar times</button></a>
+							<input class="btn btn-success" type="submit" name="Enviar" />
 						</div>
 					</div>
 				</form>
-
+				<a href="<c:url value = "/time/mostrar"/>"><button
+						class="btn btn-primary">Listar times</button></a>
 			</div>
 		</div>
 	</div>
