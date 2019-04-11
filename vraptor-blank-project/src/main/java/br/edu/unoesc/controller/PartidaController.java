@@ -7,62 +7,73 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
-import br.edu.unoesc.model.Banco;
+import br.edu.unoesc.dao.PartidaDAO;
+import br.edu.unoesc.dao.TimeDAO;
 import br.edu.unoesc.model.Partida;
 
 @Controller
 @Path("/partida")
 public class PartidaController {
-		// @Inject 
-		// private Result result;
+	@Inject
+	private Result result;
 
-		private final Result result;
+	@Inject
+	private PartidaDAO partidaDao;
+	
+	@Inject
+	private TimeDAO timeDao;
 
-		/**
-		 * @deprecated CDI eyes only
-		 */
-		protected PartidaController() {
-			this(null);
-		}
-		
-		@Inject
-		public PartidaController(Result result) {
-			this.result = result;
-		}
-		
-		@Get("/cadastro")
-		public void cadastro() {
-			result.include("times", Banco.times);
-		}
-		
-		@Post("/enviar")
-		public void mostrar(Partida partida) {
-			Banco.partidas.add(partida);
-			result.include("partidas", Banco.partidas);
-			
-		}
-		
-		@Get("/editar/{codigo}")
-		public void editar(Long codigo){
-			for(int i =0; i<=Banco.partidas.size(); i++) {
-				Partida p = Banco.partidas.get(i);
-				if(p.getCodigo().equals(codigo)){
-					result.include("partida", Banco.partidas.get(i));
-					Banco.partidas.remove(i);
-					break;
-				}
-			}
-		}
-		
-		@Get("/excluir/{codigo}")
-		public void mostrar(Long codigo) {
-			for(int i =0; i<=Banco.partidas.size(); i++) {
-				Partida p = Banco.partidas.get(i);
-				if(p.getCodigo().equals(codigo)){
-					Banco.partidas.remove(i);
-					result.include("partidas", Banco.partidas);
-					break;
-				}
-			}
-		}
+	/**
+	 * @deprecated CDI eyes only
+	 */
+	protected PartidaController() {
+		this(null);
+	}
+
+	@Inject
+	public PartidaController(Result result) {
+		this.result = result;
+	}
+
+	@Get("/cadastro")
+	public void cadastro() {
+		result.include("times", timeDao.listar());
+	}
+	
+	@Get("/mostrar")
+	public void mostrar() {
+		result.include("partidas", partidaDao.listar());
+		result.include("times", timeDao.listar());
+	}
+	
+	@Post("/enviar")
+	public void mostrar(Partida partida) {
+		partidaDao.inserir(partida);
+		result.include("partidas", partidaDao.listar());
+		result.include("times", timeDao.listar());
+
+	}
+	
+	@Post("/editando")
+	public void alterar(Partida partida){
+		partidaDao.alterar(partida);
+		result.redirectTo(this).mostrar();
+	}
+
+	@Get("/editar/{codigo}")
+	public void editar(Long codigo) {
+		Partida p = partidaDao.buscar(codigo);
+		result.include("partidas", p);
+		result.include("times", timeDao.listar());
+	}
+
+	@Get("/excluir/{codigo}")
+	public void mostrar(Long codigo) {
+		Partida p = partidaDao.buscar(codigo);
+		partidaDao.excluir(p);
+		result.include("partidas", partidaDao.listar());
+
+	}
+	
 }
+

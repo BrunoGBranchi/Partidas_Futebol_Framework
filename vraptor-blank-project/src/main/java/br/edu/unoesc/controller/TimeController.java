@@ -7,61 +7,64 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
-import br.edu.unoesc.model.Banco;
+import br.edu.unoesc.dao.TimeDAO;
 import br.edu.unoesc.model.Time;
 
 @Controller
 @Path("/time")
 public class TimeController {
+
+	@Inject
+	private Result result;
+
+	@Inject
+	private TimeDAO timeDao;
+
+	/**
+	 * @deprecated CDI eyes only
+	 */
+	protected TimeController() {
+		this(null);
+	}
+
+	@Inject
+	public TimeController(Result result) {
+		this.result = result;
+	}
+
+	@Get("/cadastro")
+	public void cadastro() {
+	}
 	
-		// @Inject 
-		// private Result result;
+	@Get("/mostrar")
+	public void mostrar() {
+		result.include("times", timeDao.listar());
+	}
+	
+	
+	@Post("/enviar")
+	public void mostrar(Time time) {
+		timeDao.inserir(time);
+		result.include("times", timeDao.listar());
+	}
 
-		private final Result result;
+	@Post("/editando")
+	public void alterar(Time time) {
+		timeDao.alterar(time);
+		result.redirectTo(this).mostrar();
+	}
 
-		/**
-		 * @deprecated CDI eyes only
-		 */
-		protected TimeController() {
-			this(null);
-		}
-		
-		@Inject
-		public TimeController(Result result) {
-			this.result = result;
-		}
-		
-		@Get("/cadastro")
-		public void cadastro() {
-		}
-		
-		@Post("/enviar")
-		public void mostrar(Time time) {
-			Banco.times.add(time);
-			result.include("times", Banco.times);
-		}
-		
-		@Get("/editar/{codigo}")
-		public void editar(Long codigo){
-			for(int i =0; i<=Banco.times.size(); i++) {
-				Time t = Banco.times.get(i);
-				if(t.getCodigo().equals(codigo)){
-					result.include("time", Banco.times.get(i));
-					Banco.times.remove(i);
-					break;
-				}
-			}
-		}
-		
-		@Get("/excluir/{codigo}")
-		public void mostrar(Long codigo) {
-			for(int i =0; i<=Banco.times.size(); i++) {
-				Time t = Banco.times.get(i);
-				if(t.getCodigo().equals(codigo)){
-					Banco.times.remove(i);
-					result.include("pessoas", Banco.times);
-					break;
-				}
-			}
-		}
+	@Get("/editar/{codigo}")
+	public void editar(Long codigo) {
+		Time t = timeDao.buscar(codigo);
+		result.include("times", t);
+	}
+
+	@Get("/excluir/{codigo}")
+	public void mostrar(Long codigo) {
+		Time t = timeDao.buscar(codigo);
+		timeDao.excluir(t);
+		result.include("times", timeDao.listar());
+
+	}
 }
